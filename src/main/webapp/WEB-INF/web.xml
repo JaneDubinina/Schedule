@@ -1,0 +1,51 @@
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+
+    <display-name>Archetype Created Web Application</display-name>
+
+    <context-param>
+        <param-name>student,file.path</param-name>
+        <param-value>C:\Schedule\students.txt</param-value>
+    </context-param>
+
+
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>web.servlet.TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>web.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+
+
+    <!--//=====================================================-->
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>web.servlet.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+
+    <listener>
+        <listener-class>web.servlet.ApplicationContextListener</listener-class>
+    </listener>
+</web-app>
