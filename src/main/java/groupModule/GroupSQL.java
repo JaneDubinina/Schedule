@@ -1,19 +1,17 @@
-package web.servlet;
+package groupModule;
 
-import groupModule.Group;
+        import java.sql.*;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-public class TestSQL {
+public class GroupSQL {
     Connection conn = null;
     Statement statement;
     Map<Integer,Group> groups = new HashMap<>();
     final static private String sql = "select * from groups_";
-    public  TestSQL(){
+    public GroupSQL(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
             conn =
@@ -46,9 +44,9 @@ public class TestSQL {
                 groups.put(Integer.parseInt( res.getString("group_number")),l);
             }
         }catch(SQLException e){
-                e.printStackTrace();
-            }
-       return groups;
+            e.printStackTrace();
+        }
+        return groups;
     }
     public List<Group>getGeroups()
     {
@@ -56,7 +54,7 @@ public class TestSQL {
     }
 
     public static void main(String[] args) {
-        TestSQL testSQL = new TestSQL();
+        GroupSQL testSQL = new GroupSQL();
         testSQL.readGrops();
     }
 

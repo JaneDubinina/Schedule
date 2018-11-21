@@ -9,9 +9,11 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
 </head>
 <body>
-<form action="/test" method="POST">
+<form action="/Login" method="POST">
     <p class="text-danger">Input name and password</p>
     <input type="text" name="firstName">
     <input type="text" name="secondName" class="text-input">

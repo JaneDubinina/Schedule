@@ -20,6 +20,14 @@
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/test</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ProfessorServlet</servlet-name>
+        <servlet-class>web.servlet.ProfessorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfessorServlet</servlet-name>
+        <url-pattern>/professors</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>
@@ -36,7 +44,7 @@
 
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>web.servlet.AuthFilter</filter-class>
+        <filter-class>filters.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
@@ -46,6 +54,6 @@
 
 
     <listener>
-        <listener-class>web.servlet.ApplicationContextListener</listener-class>
+        <listener-class>contextListener.ApplicationContextListener</listener-class>
     </listener>
 </web-app>

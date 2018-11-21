@@ -19,10 +19,13 @@
     <input type="text" name="firstName">
     <input type="text" name="secondName" class="text-input">
     <input type="submit" value="OK" class="btn btn-default btn-lg">
+</form>
+<form action="/professors" method="POST">
     <p> Here we will add the subject with the teacher(subject, teacher)</p>
     <input type="text" name="Name">
     <input type="text" name="Subject">
     <input type="submit" value="ADD" class="btn btn-default btn-lg">
+</form>
     <p> Input name and surname of the student you want to delete</p>
     <input type="text" name="NameToDelete">
     <input type="text" name="SubjectToDelete">
@@ -48,17 +51,6 @@
     </c:forEach>
     </tbody>
 </table>
-<table>
-    <thead>
-    <tr>
-        <th>First name </th>
-        <th>Second name </th>
-
-    </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-</table>
-
 <table class = "table">
     <thead>
     <tr>

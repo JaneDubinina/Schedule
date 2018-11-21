@@ -3,33 +3,24 @@ package web.servlet;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-
-import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sun.javafx.binding.StringFormatter;
-import groupModule.Group;
+import groupModule.GroupSQL;
 import professorModule.Professor;
 import professorModule.ProfessorRepository;
 import studentModule.*;
 
-import static java.sql.DriverManager.*;
-
 public class TestServlet extends HttpServlet {
     private Connection conn;
     private static final long serialVersionUID = 6345194112526801506L;
-    private StudentRepository studentRepository;
     private ProfessorRepository professorRepository;
-    private final String path ="C:\\Schedule\\students.txt";
     private final static List<Student> STUDENTS = new ArrayList<Student>();
     private final static List<Professor> PROFESSORS = new ArrayList<Professor>();
-    private TestSQL testsql;
+    private GroupSQL testsql;
+    private List<Student> students = new ArrayList<>();
     private StudentReaderSQL studentsSQL;
     public TestServlet() throws SQLException {
     }
@@ -37,12 +28,11 @@ public class TestServlet extends HttpServlet {
     @Override
     public void init() throws ServletException
     {
-
         ServletContext sc = getServletContext();
-        //this.studentRepository = (StudentRepository) sc.getAttribute("studentRepository");
         this.studentsSQL = (StudentReaderSQL)sc.getAttribute("StudentSQL");
         this.professorRepository = (ProfessorRepository) sc.getAttribute("professorRepository");
-        this.testsql = (TestSQL)sc.getAttribute("groupRepository");
+        this.testsql = (GroupSQL)sc.getAttribute("groupRepository");
+        this.students = studentsSQL.getGeroups();
     }
 
     public static void main(String[] args) {
@@ -64,31 +54,61 @@ public class TestServlet extends HttpServlet {
         req.setAttribute("groups",testsql.getGeroups());
 
 
+        /*if("".equals(req.getParameter("json"))) {
+            resp.setContentType("z/json");
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/test.jsp");
-        dispatcher.forward(req, resp);
+            PrintWriter pw = resp.getWriter();
+            pw.print(toJson(students));
+            pw.close();
+        } else {*/
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/test.jsp");
+            dispatcher.forward(req, resp);
+
 
 
 
     }
+    private static String toJson(Student student){
+        String json = "{" +
+                "\"id\": \"" + student.getId() + "\", " +
+                "\"firstName\": \"" + student.getFirstName()+ "\", " +
+                "\"lastName\": \"" + student.getSecondName()+ "\" " +
+                "}";
+        return json;
+    }
+
+    private static String toJson(List<Student> students){
+        String json = "[" ;
+        if(students != null) {
+            boolean firstItem = true;
+            for (Student student: students){
+                if (firstItem){
+                    firstItem = false;
+                } else{
+                    json += ",";
+                }
+                json += toJson(student);
+            }
+        }
+        json += "]";
+        return json;
+    }
+
 
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {
-        System.out.println(getInitParameter("123"));
+
         String firstName = req.getParameter("firstName");
         String secondName = req.getParameter("secondName");
         String Name = req.getParameter("Name");
         String MaskForStudents = req.getParameter("maskForStudents");
-        if(MaskForStudents.length()>0)
-        {
-
-        }
         String Subject = req.getParameter("Subject");
         String NameToDelete = req.getParameter("NameToDelete");
         String SubjectToDelete = req.getParameter("SubjectToDelete");
         deleteStudent(NameToDelete,SubjectToDelete);
+
         if(firstName.length()>1&&secondName.length()>1)
             studentsSQL.add(new Student(firstName, secondName));
         if(MaskForStudents.length()>1)

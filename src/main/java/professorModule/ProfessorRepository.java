@@ -2,10 +2,16 @@ package professorModule;
 
 import professorModule.Professor;
 
+import javax.sql.DataSource;
 import java.util.*;
 
 public class ProfessorRepository {
     private final Map<String,Professor> Professors = new HashMap<>();
+    private DataSource dataSource;
+    public ProfessorRepository(DataSource dataSource)
+    {
+        this.dataSource = dataSource;
+    }
     public ProfessorRepository(List<Professor> Professors)
     {
         if(Professors !=null)

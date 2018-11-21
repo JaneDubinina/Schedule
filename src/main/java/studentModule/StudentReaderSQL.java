@@ -1,29 +1,16 @@
 package studentModule;
-import groupModule.Group;
+import groupModule.GroupSQL;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
 
 public class StudentReaderSQL {
-    Connection conn = null;
-    Statement statement;
     Map<Integer,Student> groups = new HashMap<>();
+    private DataSource dataSource;
     final static private String sql = "select * from groups_";
     public  StudentReaderSQL(DataSource ds){
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn =
-                    DriverManager.getConnection("jdbc:mysql://localhost:3306/world?" +
-                            "user=root&password=jun20jun&serverTimezone=UTC");            statement = conn.createStatement();
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        } catch (ClassNotFoundException e) {
-            System.out.println("=(");
-        }
-
+            this.dataSource = ds;
     }
     public void add(Student student)
     {
@@ -32,8 +19,10 @@ public class StudentReaderSQL {
     public Map<Integer,Student> readGropswithMask(String mask)
     {
 
+        try (Connection connection = dataSource.getConnection()){
         ResultSet res = null;
-        try {
+        Statement statement =connection.createStatement();
+
             res = statement.executeQuery(String.format("select * from students where first_name like \"%s\";",mask));
 
             while (res.next()) {
@@ -52,10 +41,10 @@ public class StudentReaderSQL {
     }
     public Map<Integer,Student> readGrops()
     {
-
-        ResultSet res = null;
-        try {
-            res = statement.executeQuery("select * from students");
+            try (Connection connection = dataSource.getConnection()){
+                ResultSet res = null;
+                Statement statement =connection.createStatement();
+            res = statement.executeQuery("select * from world.students");
 
             while (res.next()) {
 
@@ -78,7 +67,7 @@ public class StudentReaderSQL {
     }
 
     public static void main(String[] args) {
-        web.servlet.TestSQL testSQL = new web.servlet.TestSQL();
+        GroupSQL testSQL = new GroupSQL();
         testSQL.readGrops();
     }
 

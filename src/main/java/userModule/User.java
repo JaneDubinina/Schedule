@@ -1,4 +1,4 @@
-package UserModule;
+package userModule;
 
 public class User {
     private String name;

@@ -1,9 +1,6 @@
-package web.servlet;
+package contextListener;
 
-import groupModule.Group;
-import groupModule.GroupLineMapper;
-import groupModule.GroupReader;
-import groupModule.GroupRepository;
+import userModule.UserRepository;
 import professorModule.Professor;
 import professorModule.ProfessorReader;
 import professorModule.ProfessorRepository;
@@ -17,7 +14,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationContextListener implements ServletContextListener {
@@ -41,26 +37,20 @@ public class ApplicationContextListener implements ServletContextListener {
     {
 
         try {
-
+            UserRepository userRepository = new UserRepository(dataSource());
             TestSQL testsql = new TestSQL();
             DataSource ds = dataSource();
             testsql.readGrops();
             List<Student> students = new EntityFileReader<Student>(path,new StudentLineMapper<>()).read();
             StudentReaderSQL student = new StudentReaderSQL(ds);//
             student.readGrops();
-            String secPath = "C:\\Schedule\\groups.txt";
             StudentRepository studentRepository = new StudentRepository(students);
-
-
             ServletContext sc = sce.getServletContext();
             sc.setAttribute("studentRepository",studentRepository);
-            ///
             List<Professor> professors = new ProfessorReader(ProfessorsPath).read();
             ProfessorRepository professorRepository = new ProfessorRepository(professors);
             ServletContext sc1 = sce.getServletContext();
-            sc.setAttribute("StudentSQL",student);
             sc.setAttribute("professorRepository",professorRepository);
-            sc.setAttribute("groupRepository",testsql);
         } catch (IOException e) {
             throw new RuntimeException("Can't read students");
         }
