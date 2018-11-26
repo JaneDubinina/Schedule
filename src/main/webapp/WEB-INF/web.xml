@@ -45,6 +45,14 @@
         <url-pattern>/groups</url-pattern>
     </servlet-mapping>
 
+<servlet-mapping>
+<servlet-name>AddUserServlet</servlet-name>
+<url-pattern>/addUser</url-pattern>
+</servlet-mapping>
+    <servlet>
+    <servlet-name>AddUserServlet</servlet-name>
+    <servlet-class>web.servlet.AddUserServlet</servlet-class>
+    </servlet>
 
     <!--//=====================================================-->
 

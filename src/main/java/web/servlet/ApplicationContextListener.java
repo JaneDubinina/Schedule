@@ -34,6 +34,9 @@ public class ApplicationContextListener implements ServletContextListener {
 
         try {
             DataSource ds = dataSource();
+            userRepository UR = new userRepository(ds);
+
+
             StudentReaderSQL student = new StudentReaderSQL(ds);
             student.readGrops("");
             ServletContext sc = sce.getServletContext();
@@ -46,6 +49,7 @@ public class ApplicationContextListener implements ServletContextListener {
             StudentWriterSQL studentWriterSQL= new StudentWriterSQL(ds);
             sc.setAttribute("StudentWriterSQL", studentWriterSQL);
             sc.setAttribute("groupRepository", groups);
+            sc.setAttribute("userRepository", UR);
         } catch (IOException e) {
             throw new RuntimeException("Can't read students");
         }
