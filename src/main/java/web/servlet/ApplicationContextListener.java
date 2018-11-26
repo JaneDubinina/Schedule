@@ -1,26 +1,22 @@
-package contextListener;
-
-import userModule.UserRepository;
+package web.servlet;
+import groupModule.GroupSQL;
 import professorModule.Professor;
 import professorModule.ProfessorReader;
 import professorModule.ProfessorRepository;
 import studentModule.*;
-
+import javax.sql.DataSource;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import java.io.IOException;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.util.List;
+
 
 public class ApplicationContextListener implements ServletContextListener {
-    private final String path ="C:\\Schedule\\students.txt";
     private final String ProfessorsPath="C:\\Schedule\\professors.txt";
-    private StudentRepository studentRepository;
-    String filepath;
     private DataSource dataSource() {
         try {
             Context initContext = new InitialContext();
@@ -37,20 +33,19 @@ public class ApplicationContextListener implements ServletContextListener {
     {
 
         try {
-            UserRepository userRepository = new UserRepository(dataSource());
-            TestSQL testsql = new TestSQL();
             DataSource ds = dataSource();
-            testsql.readGrops();
-            List<Student> students = new EntityFileReader<Student>(path,new StudentLineMapper<>()).read();
-            StudentReaderSQL student = new StudentReaderSQL(ds);//
-            student.readGrops();
-            StudentRepository studentRepository = new StudentRepository(students);
+            StudentReaderSQL student = new StudentReaderSQL(ds);
+            student.readGrops("");
             ServletContext sc = sce.getServletContext();
-            sc.setAttribute("studentRepository",studentRepository);
+            sc.setAttribute("StudentSQL",student);
             List<Professor> professors = new ProfessorReader(ProfessorsPath).read();
             ProfessorRepository professorRepository = new ProfessorRepository(professors);
-            ServletContext sc1 = sce.getServletContext();
             sc.setAttribute("professorRepository",professorRepository);
+            GroupSQL groups = new GroupSQL(ds);
+            groups.readGrops();
+            StudentWriterSQL studentWriterSQL= new StudentWriterSQL(ds);
+            sc.setAttribute("StudentWriterSQL", studentWriterSQL);
+            sc.setAttribute("groupRepository", groups);
         } catch (IOException e) {
             throw new RuntimeException("Can't read students");
         }
@@ -59,11 +54,6 @@ public class ApplicationContextListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce)
     {
-        List<Student> students = studentRepository.findAll();
-        try {
-            new StudentWriter(filepath).write(students);
-        } catch (IOException e) {
-            System.out.println("Can't save students");
-        }
+
     }
 }

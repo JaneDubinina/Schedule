@@ -1,8 +1,5 @@
 package web.servlet;
 
-import userModule.User;
-import userModule.UserRepository;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -32,16 +29,15 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
         String name = req.getParameter("firstName");
         String password = req.getParameter("secondName");
-        UserRepository userRepository = new UserRepository(dataSource());
-
-//        User user = userRepository.LogIN(name, password);
-//        if (user!=null) {
-//            HttpSession session = req.getSession();
-//            session.setAttribute("user", new User(name, password));
-//            response.sendRedirect("/test");
-//        } else {
-//            doGet(req, response);
-//        }
+        userRepository UserRepository = new userRepository(name, password);
+        User user = UserRepository.LogIN(name, password);
+        if (user!=null) {
+            HttpSession session = req.getSession();
+            session.setAttribute("user", new User(name, password));
+            response.sendRedirect("/test");
+        } else {
+            doGet(req, response);
+        }
     }
 
     @Override

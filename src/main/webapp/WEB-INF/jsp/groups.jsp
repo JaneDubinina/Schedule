@@ -8,47 +8,29 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Some Title</title>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script>
-        function fetch(){
-            var request = new XMLHttpRequest();
-            request.onreadystatechange = function(){
-                if(this.readyState == 4 && this.status == 200){
-                    var response = this.responseText;
-                    document.getElementById("mobiles").innerHTML=response;
-                }
-            };
-            request.open("GET", "details.jsp", true);
-            request.send();
-        }
-    </script>
 </head>
 
-<body class="span2">
+
 <form action="/professors" method="POST">
-    <input type="submit" value="Show Professors" class="btn btn-default btn-lg">
+    <p> Here we will add the subject with the teacher(subject, teacher)</p>
+    <input type="text" name="Name">
+    <input type="text" name="Subject">
+    <input type="submit" value="ADD" class="btn btn-default btn-lg">
 </form>
-<br>
-<form action="/groups">
-    <input type="submit" value="Show Groups" class="btn btn-default btn-lg">
-    <br>
+
+<p>Mask for professors</p>
+<input type="text" name="maskForStudents">
 </form>
-<br>
-<br>
-<form action="/test" method="POST">
-    <p class="text-danger">Here we will add the student(first name, second name)</p>
-    <input type="text" name="firstName">
-    <input type="text" name="secondName" class="text-input">
-    <input type="submit" value="OK" class="btn btn-default btn-lg">
-    <p>Input Mask if you want</p>
-    <input type="text" name="MaskForStudents"clas="text-input">
-</form>
+
+
+
+
 <table id="table" class="table table-bordered">
     <thead>
     <tr>
-        <th>First name </th>
-        <th>Second name </th>
+        <th>Name </th>
+        <th>Subject </th>
 
     </tr>
     </thead>
@@ -62,7 +44,7 @@
 
     if (xhr.status != 200) {
 
-        alert( xhr.status + ':' + xhr.statusText );
+        alert( xhr.status + ': Почему!!!' + xhr.statusText );
     } else {
 
         var data = JSON.parse( xhr.responseText);
@@ -84,7 +66,7 @@
         tr.appendChild(td);
 
         td = document.createElement('td');
-        tn = document.createTextNode(ob.lastName);
+        tn = document.createTextNode(ob.secondName);
         td.appendChild(tn);
         tr.appendChild(td);
         body.appendChild(tr);

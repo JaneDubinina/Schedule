@@ -1,4 +1,4 @@
-package contextListener;
+package web.servlet;
 
 import professorModule.Professor;
 import professorModule.ProfessorReader;

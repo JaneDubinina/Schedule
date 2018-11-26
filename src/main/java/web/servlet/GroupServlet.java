@@ -1,66 +1,66 @@
 package web.servlet;
-import professorModule.Professor;
-import professorModule.ProfessorRepository;
-import studentModule.Student;
 
+import groupModule.Group;
+import groupModule.GroupSQL;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-public class ProfessorServlet extends HttpServlet {
 
+public class GroupServlet extends HttpServlet {
     private static final long serialVersionUID = 6345194112526801506L;
     public void init() {
         ServletContext sc = getServletContext();
-        professorRepository = (ProfessorRepository) sc.getAttribute("professorRepository");
+        groupSQL = (GroupSQL) sc.getAttribute("groupRepository");
     }
-    private ProfessorRepository professorRepository = null;
+    private GroupSQL groupSQL = null;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.setAttribute("professorRepostitory",professorRepository.findAll());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/Professors.jsp");
-        dispatcher.forward(req, resp);
+            throws ServletException, IOException
 
+    {
+        req.setAttribute("groups",groupSQL.getGroups());
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/groups.jsp");
+        dispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String Name = req.getParameter("Name");
-        String Subject = req.getParameter("Subject");
-        professorRepository.update(new Professor(Name,Subject));
+        String Name = req.getParameter("Group");
+        String Subject = req.getParameter("NameOfGroup");
+        groupSQL.AddGroup(Name, Subject);
+        //resp.sendRedirect(req.getContextPath() + "/groups");
         if("".equals(req.getParameter("json"))) {
             resp.setContentType("application/json");
 
             PrintWriter pw = resp.getWriter();
-            pw.print(toJson(professorRepository.findAll()));
+            pw.print(toJson(groupSQL.getGroups()));
             pw.close();
 
         } else {
-            resp.sendRedirect(req.getContextPath() + "/professors");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/groups.jsp");
+            dispatcher.forward(req, resp);
         }
-
     }
-    private static String toJson(Professor student){
+    private static String toJson(Group student){
         String json = "{" +
-                "\"firstName\": \"" + student.getName()+ "\", " +
-                "\"lastName\": \"" + student.getSubject()+ "\" " +
+                "\"firstName\": \"" + student.getGroupNumber()+ "\", " +
+                "\"lastName\": \"" + student.getAvhMark()+ "\" " +
                 "}";
         return json;
     }
 
-    private static String toJson(List<Professor> students){
+    private static String toJson(List<Group> students){
         String json = "[" ;
         if(students != null) {
             boolean firstItem = true;
-            for (Professor student: students){
+            for (Group student: students){
                 if (firstItem){
                     firstItem = false;
                 } else{
@@ -72,5 +72,5 @@ public class ProfessorServlet extends HttpServlet {
         json += "]";
         return json;
     }
-
 }
+

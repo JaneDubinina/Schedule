@@ -1,4 +1,4 @@
-package userModule;
+package web.servlet;
 
 public class User {
     private String name;

@@ -1,20 +1,20 @@
-package userModule;
+package web.servlet;
 
-import javax.sql.DataSource;
 import java.sql.*;
 
-public class UserRepository {
-    private DataSource dataSource;
-
-
-    public UserRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+public class userRepository {
+    String name;
+    String pass;
+    public userRepository(String name, String pass) {
+        this.name = name;
+        this.pass = pass;
     }
     public User LogIN(String name, String pass) {
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?" +
                     "user=root&password=jun20jun&serverTimezone=UTC");
-            String sql="SELECT * FROM  world.users";
+            String sql="SELECT * FROM  world.users_";
             Statement st = conn.createStatement();
             ResultSet rs =  st.executeQuery(sql);
             while(rs.next())

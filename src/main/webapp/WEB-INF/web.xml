@@ -28,8 +28,6 @@
         <servlet-name>ProfessorServlet</servlet-name>
         <url-pattern>/professors</url-pattern>
     </servlet-mapping>
-
-
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>web.servlet.LoginServlet</servlet-class>
@@ -37,6 +35,14 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>GroupServlet</servlet-name>
+        <servlet-class>web.servlet.GroupServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>GroupServlet</servlet-name>
+        <url-pattern>/groups</url-pattern>
     </servlet-mapping>
 
 
@@ -54,6 +60,6 @@
 
 
     <listener>
-        <listener-class>contextListener.ApplicationContextListener</listener-class>
+        <listener-class>web.servlet.ApplicationContextListener</listener-class>
     </listener>
 </web-app>

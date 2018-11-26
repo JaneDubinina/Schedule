@@ -1,6 +1,4 @@
 package studentModule;
-import groupModule.GroupSQL;
-
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
@@ -39,12 +37,16 @@ public class StudentReaderSQL {
         }
         return groups;
     }
-    public Map<Integer,Student> readGrops()
+    public Map<Integer,Student> readGrops(String Mask)
     {
+
             try (Connection connection = dataSource.getConnection()){
                 ResultSet res = null;
                 Statement statement =connection.createStatement();
-            res = statement.executeQuery("select * from world.students");
+                String sql = "select * from world.students";
+                if(!Mask.equals("")&& Mask!=null)
+                    sql+=String.format("where first_name like '%s'", Mask);
+            res = statement.executeQuery(sql);
 
             while (res.next()) {
 
@@ -53,7 +55,12 @@ public class StudentReaderSQL {
                         res.getString("first_name"),
                         res.getString("second_name")));
                 Student l = new Student(res.getString("first_name"), res.getString("second_name"));
+                if(res.getString("id")!=null)
                 groups.put(Integer.parseInt( res.getString("id")),l);
+                else
+                    groups.put(new Random().nextInt(111 + 1),l);
+                statement.close();
+                connection.close();
             }
         }catch(SQLException e){
             e.printStackTrace();
@@ -61,14 +68,12 @@ public class StudentReaderSQL {
         return groups;
     }
 
+
+
+
     public List<Student>getGeroups()
     {
         return new ArrayList<>(groups.values());
-    }
-
-    public static void main(String[] args) {
-        GroupSQL testSQL = new GroupSQL();
-        testSQL.readGrops();
     }
 
 }

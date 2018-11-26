@@ -13,10 +13,17 @@
 
 </head>
 <body>
-<form action="/Login" method="POST">
-    <p class="text-danger">Input name and password</p>
+<form action="/Login" method="POST" style="align-items: center;margin-left: 40%;margin-top: 20%">
+    <p class="text-info"><h3>Input name and password</h3></p>
+    <p>Login</p>
     <input type="text" name="firstName">
+    <br>
+    <br>
+    <p>Password</p>
+
     <input type="text" name="secondName" class="text-input">
+    <br>
+    <br>
     <input type="submit" value="OK" class="btn btn-default btn-lg">
 
 </form>
